@@ -6,6 +6,7 @@ import com.financorp.serf.model.entities.Venta;
 import com.financorp.serf.model.enums.MetodoPago;
 import com.financorp.serf.model.enums.Moneda;
 import com.financorp.serf.repository.ClienteRepository;
+import com.financorp.serf.repository.FilialRepository;
 import com.financorp.serf.service.ProductoService;
 import com.financorp.serf.service.VentaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +34,17 @@ public class VentaController {
     private final VentaService ventaService;
     private final ProductoService productoService;
     private final ClienteRepository clienteRepository;
+    private final FilialRepository filialRepository;
     
     @Autowired
     public VentaController(VentaService ventaService, 
                           ProductoService productoService,
-                          ClienteRepository clienteRepository) {
+                          ClienteRepository clienteRepository,
+                          FilialRepository filialRepository) {
         this.ventaService = ventaService;
         this.productoService = productoService;
         this.clienteRepository = clienteRepository;
+        this.filialRepository = filialRepository;
     }
     
     /**
@@ -65,6 +69,7 @@ public class VentaController {
         model.addAttribute("venta", venta);
         model.addAttribute("productos", productoService.listarActivos());
         model.addAttribute("clientes", clienteRepository.findByActivoTrue());
+        model.addAttribute("filiales", filialRepository.findByActivoTrue());
         model.addAttribute("monedas", Moneda.values());
         model.addAttribute("metodosPago", MetodoPago.values());
         

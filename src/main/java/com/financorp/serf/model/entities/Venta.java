@@ -1,6 +1,7 @@
 package com.financorp.serf.model.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,6 +40,7 @@ public class Venta {
     private Integer cantidad;
     
     @Column(nullable = false)
+    @DecimalMin(value = "0.0", message = "El precio unitario no puede ser negativo")
     private Double precioUnitario;
     
     @Enumerated(EnumType.STRING)
@@ -54,6 +56,7 @@ public class Venta {
     private Filial filial;
     
     @Column
+    @DecimalMin(value = "0.0", message = "El descuento no puede ser negativo")
     private Double descuento;
     
     @Column
