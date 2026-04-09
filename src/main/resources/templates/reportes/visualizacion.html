@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+    <title>Reporte Generado - SERF</title>
+</head>
+<body>
+    <th:block th:fragment="content">
+        <div class="row mb-4">
+            <div class="col">
+                <h1><i class="bi bi-file-earmark-check"></i> Reporte Financiero Generado</h1>
+            </div>
+            <div class="col-auto">
+                <a href="/reportes" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Nuevo Reporte
+                </a>
+                <button onclick="window.print()" class="btn btn-primary">
+                    <i class="bi bi-printer"></i> Imprimir
+                </button>
+            </div>
+        </div>
+        
+        <!-- Contenido del Reporte -->
+        <div class="card mb-4" style="min-height: 800px;">
+            <div class="card-body" th:utext="${reporteHtml}">
+                <!-- El contenido HTML del reporte se inserta aquí -->
+            </div>
+        </div>
+        
+        <!-- Información de Procesamiento -->
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5><i class="bi bi-info-circle"></i> Información del Proceso</h5>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Metadatos del Reporte</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Fecha de Generación:</strong> <span th:text="${#temporals.format(fechaGeneracion, 'dd/MM/yyyy HH:mm:ss')}"></span></li>
+                            <li><strong>Tipo de Reporte:</strong> <span class="badge bg-primary" th:text="${tipoReporte}"></span></li>
+                            <li><strong>Marca de Agua:</strong> 
+                                <span th:if="${conMarcaAgua}" class="badge bg-success">Aplicada</span>
+                                <span th:unless="${conMarcaAgua}" class="badge bg-secondary">No aplicada</span>
+                            </li>
+                            <li><strong>Firma Digital:</strong> 
+                                <span th:if="${conFirmaDigital}" class="badge bg-success">Aplicada</span>
+                                <span th:unless="${conFirmaDigital}" class="badge bg-secondary">No aplicada</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Patrones Utilizados en la Generación</h6>
+                        <ol class="small">
+                            <li><strong class="text-primary">SINGLETON:</strong> ConfiguracionGlobal obtuvo las tasas de cambio</li>
+                            <li><strong class="text-success">PROTOTYPE:</strong> PlantillaReporte clonó la plantilla <span th:text="${tipoReporte}"></span></li>
+                            <li><strong class="text-info">BUILDER:</strong> ReporteBuilder construyó el documento con método fluido</li>
+                            <li><strong class="text-warning">COMPOSITE:</strong> ComponenteReporte organizó secciones y elementos</li>
+                            <li><strong class="text-danger">DECORATOR:</strong> 
+                                <span th:if="${conMarcaAgua or conFirmaDigital}">
+                                    Decoradores aplicados:
+                                    <span th:if="${conMarcaAgua}">MarcaAguaDecorator</span>
+                                    <span th:if="${conMarcaAgua and conFirmaDigital}">, </span>
+                                    <span th:if="${conFirmaDigital}">FirmaDigitalDecorator</span>
+                                </span>
+                                <span th:unless="${conMarcaAgua or conFirmaDigital}">Sin decoradores aplicados</span>
+                            </li>
+                            <li><strong class="text-dark">FACADE:</strong> ReporteFinancieroFacade coordinó todos los patrones</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="alert alert-success mb-0">
+                    <i class="bi bi-check-circle"></i>
+                    <strong>Proceso Completado Exitosamente</strong>
+                    <p class="mb-0 small">
+                        Este reporte fue generado utilizando los 6 patrones de diseño en conjunto con arquitectura MVC 
+                        y aplicando los principios SOLID en cada componente del sistema SERF (Sistema Empresarial de Reportes Financieros).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>

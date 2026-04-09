@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+    <title>Inicio - SERF</title>
+</head>
+<body>
+    <th:block th:fragment="content">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">
+                    <i class="bi bi-bar-chart-line-fill text-primary"></i>
+                    Dashboard - Sistema SERF
+                </h1>
+                <p class="lead">Resumen general del sistema de gestión de reportes financieros</p>
+                <hr>
+            </div>
+        </div>
+        
+        <!-- Tarjetas de estadísticas -->
+        <div class="row g-4 mb-5">
+            <!-- Total Productos -->
+            <div class="col-md-3">
+                <div class="card stat-card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-box-seam text-primary" style="font-size: 3rem;"></i>
+                        <h2 class="mt-3" th:text="${totalProductos}">0</h2>
+                        <p class="text-muted mb-0">Productos en Stock</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Total Ventas -->
+            <div class="col-md-3">
+                <div class="card stat-card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-cart-check text-success" style="font-size: 3rem;"></i>
+                        <h2 class="mt-3" th:text="${totalVentas}">0</h2>
+                        <p class="text-muted mb-0">Ventas Registradas</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ventas del Mes -->
+            <div class="col-md-3">
+                <div class="card stat-card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-currency-euro text-warning" style="font-size: 3rem;"></i>
+                        <h2 class="mt-3" th:text="${#numbers.formatCurrency(ventasMes)}">€0.00</h2>
+                        <p class="text-muted mb-0">Ingresos del Mes (EUR)</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stock Bajo -->
+            <div class="col-md-3">
+                <div class="card stat-card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-exclamation-triangle text-danger" style="font-size: 3rem;"></i>
+                        <h2 class="mt-3" th:text="${productosStockBajo}">0</h2>
+                        <p class="text-muted mb-0">Productos Stock Bajo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Accesos rápidos -->
+        <div class="row g-4 mb-4">
+            <div class="col-12">
+                <h3 class="mb-3"><i class="bi bi-lightning-charge"></i> Accesos Rápidos</h3>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-box-seam text-primary" style="font-size: 2.5rem;"></i>
+                        <h5 class="card-title mt-3">Gestión de Productos</h5>
+                        <p class="card-text">Administra el inventario de productos tecnológicos importados</p>
+                        <a href="/productos/nuevo" class="btn btn-primary me-2">
+                            <i class="bi bi-plus-circle"></i> Nuevo Producto
+                        </a>
+                        <a href="/productos" class="btn btn-outline-primary">
+                            <i class="bi bi-list"></i> Ver Todos
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-cart-check text-success" style="font-size: 2.5rem;"></i>
+                        <h5 class="card-title mt-3">Registro de Ventas</h5>
+                        <p class="card-text">Registra ventas con conversión automática a EUR</p>
+                        <a href="/ventas/nueva" class="btn btn-success me-2">
+                            <i class="bi bi-plus-circle"></i> Nueva Venta
+                        </a>
+                        <a href="/ventas" class="btn btn-outline-success">
+                            <i class="bi bi-list"></i> Ver Todas
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-file-bar-graph text-warning" style="font-size: 2.5rem;"></i>
+                        <h5 class="card-title mt-3">Reportes Financieros</h5>
+                        <p class="card-text">Genera reportes con firma digital y marca de agua</p>
+                        <a href="/reportes" class="btn btn-warning me-2">
+                            <i class="bi bi-file-earmark-text"></i> Generar Reporte
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Información del sistema -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="bi bi-info-circle"></i> Sobre el Sistema SERF</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>SERF</strong> es el Sistema Empresarial de Gestión de Reportes Financieros de FinanCorp S.A.</p>
+                        <p class="mb-0"><strong>Patrones de Diseño Implementados:</strong></p>
+                        <ul>
+                            <li><strong>Singleton:</strong> Configuración global y conversión de monedas</li>
+                            <li><strong>Prototype:</strong> Clonación de plantillas de reportes</li>
+                            <li><strong>Builder:</strong> Construcción de reportes complejos</li>
+                            <li><strong>Composite:</strong> Estructura jerárquica de secciones</li>
+                            <li><strong>Decorator:</strong> Marca de agua y firma digital</li>
+                            <li><strong>Facade:</strong> Interfaz simplificada para generación de reportes</li>
+                        </ul>
+                        <p class="mb-0 mt-3"><strong>Principios SOLID aplicados en toda la arquitectura</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>

@@ -1,0 +1,704 @@
+/* Estilos adicionales para el botón de tema */
+#theme-toggle {
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.65rem 1.3rem;
+    border-radius: 25px;
+    border: 2px solid white;
+    background-color: rgba(255, 255, 255, 0.25);
+    color: white !important;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+#theme-toggle:hover {
+    background-color: white;
+    color: #667eea !important;
+    border-color: white;
+    transform: scale(1.08);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.4);
+}
+
+#theme-toggle i {
+    font-size: 1.3rem;
+}
+
+#theme-text {
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+/* Asegurar visibilidad de nav-links */
+.navbar-nav .nav-link {
+    color: white !important;
+    font-weight: 600;
+}
+
+.navbar-nav .nav-link:hover {
+    color: white !important;
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.navbar-brand {
+    color: white !important;
+    font-weight: 700;
+}
+
+/* Ajustes para tema oscuro en tarjetas estadísticas */
+.dark-theme .stat-card {
+    background-color: #1f2937 !important;
+    border: 1px solid #4b5563;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+.dark-theme .stat-card .stat-value {
+    color: #f9fafb !important;
+}
+
+.dark-theme .stat-card .stat-label {
+    color: #d1d5db !important;
+}
+
+/* Ajustes para tema oscuro en tablas */
+.dark-theme .table {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.dark-theme .table tbody tr {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dark-theme .table tbody tr:hover {
+    background-color: rgba(59, 130, 246, 0.2);
+}
+
+.dark-theme .table tbody td {
+    color: #f9fafb !important;
+    font-weight: 500;
+}
+
+/* Códigos de producto más visibles en modo oscuro */
+.dark-theme .table tbody td code,
+.dark-theme .table tbody td .badge {
+    color: white !important;
+    background-color: rgba(59, 130, 246, 0.3);
+    padding: 0.25rem 0.5rem;
+    border-radius: 5px;
+}
+
+/* Asegurar que todos los textos en celdas sean blancos */
+.dark-theme .table td,
+.dark-theme .table td *:not(.btn):not(.badge) {
+    color: #f9fafb !important;
+}
+
+/* Badges en tabla modo oscuro con mejor contraste */
+.dark-theme .table .badge {
+    background-color: #3b82f6 !important;
+    color: white !important;
+    font-weight: 700;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark-theme .table .badge-success {
+    background-color: #10b981 !important;
+}
+
+.dark-theme .table .badge-warning {
+    background-color: #f59e0b !important;
+}
+
+.dark-theme .table .badge-danger {
+    background-color: #ef4444 !important;
+}
+
+/* Ajustes para tema oscuro en alertas */
+.dark-theme .alert-success {
+    background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+    color: #d1fae5;
+}
+
+.dark-theme .alert-info {
+    background: linear-gradient(135deg, #164e63 0%, #0e7490 100%);
+    color: #cffafe;
+}
+
+.dark-theme .alert-warning {
+    background: linear-gradient(135deg, #92400e 0%, #b45309 100%);
+    color: #fef3c7;
+}
+
+.dark-theme .alert-danger {
+    background: linear-gradient(135deg, #991b1b 0%, #b91c1c 100%);
+    color: #fee2e2;
+}
+
+/* Ajustes para tema oscuro en footer */
+.dark-theme footer {
+    background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+}
+
+/* Mejorar contraste de texto en inputs en modo oscuro */
+.dark-theme .form-control::placeholder,
+.dark-theme .form-select option {
+    color: #9ca3af;
+}
+
+/* Headings en tema oscuro */
+.dark-theme h1,
+.dark-theme h2,
+.dark-theme h3,
+.dark-theme h4,
+.dark-theme h5,
+.dark-theme h6 {
+    color: #f9fafb !important;
+}
+
+/* Lead text más visible */
+.dark-theme .lead {
+    color: #e5e7eb !important;
+    font-weight: 500;
+}
+
+/* Párrafos y texto general */
+.dark-theme p:not(.text-muted) {
+    color: #e5e7eb !important;
+}
+
+/* Breadcrumbs en tema oscuro */
+.dark-theme .breadcrumb {
+    background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+}
+
+/* Enlaces en modo oscuro */
+.dark-theme a:not(.btn):not(.nav-link) {
+    color: var(--primary-color);
+}
+
+.dark-theme a:not(.btn):not(.nav-link):hover {
+    color: var(--primary-dark);
+}
+
+/* ================================================
+   SOBRESCRIBIR TODAS LAS CLASES DE BOOTSTRAP
+   ================================================ */
+
+/* Fondos claros de Bootstrap */
+.dark-theme .bg-light {
+    background-color: #1f2937 !important;
+    color: #f9fafb !important;
+}
+
+.dark-theme .bg-white {
+    background-color: #1f2937 !important;
+    color: #f9fafb !important;
+}
+
+/* Bordes de colores en modo oscuro */
+.dark-theme .border-primary {
+    border-color: #3b82f6 !important;
+}
+
+.dark-theme .border-success {
+    border-color: #10b981 !important;
+}
+
+.dark-theme .border-info {
+    border-color: #06b6d4 !important;
+}
+
+.dark-theme .border-warning {
+    border-color: #f59e0b !important;
+}
+
+.dark-theme .border-danger {
+    border-color: #ef4444 !important;
+}
+
+/* Todos los divs con clases de card */
+.dark-theme .card.bg-light,
+.dark-theme .card.bg-white {
+    background-color: #1f2937 !important;
+}
+
+/* Labels de formularios y botones de radio personalizados */
+.dark-theme .btn-outline-primary {
+    color: #60a5fa !important;
+    border-color: #3b82f6 !important;
+}
+
+.dark-theme .btn-outline-primary:hover,
+.dark-theme .btn-check:checked + .btn-outline-primary {
+    background-color: #3b82f6 !important;
+    color: white !important;
+    border-color: #3b82f6 !important;
+}
+
+/* Opciones de reporte */
+.dark-theme .reporte-option {
+    background-color: #1f2937 !important;
+    border-color: #4b5563 !important;
+}
+
+.dark-theme .reporte-option .card-body {
+    background-color: #1f2937 !important;
+}
+
+/* Form switches y checkboxes */
+.dark-theme .form-check-label {
+    color: #e5e7eb !important;
+}
+
+.dark-theme .form-check-input {
+    background-color: #374151;
+    border-color: #6b7280;
+}
+
+.dark-theme .form-check-input:checked {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+}
+
+/* Texto de ayuda en formularios */
+.dark-theme .small,
+.dark-theme small {
+    color: #d1d5db !important;
+}
+
+/* Elementos dentro de cards con bordes de colores */
+.dark-theme .card.border-primary,
+.dark-theme .card.border-success,
+.dark-theme .card.border-info,
+.dark-theme .card.border-warning,
+.dark-theme .card.border-danger {
+    background-color: #1f2937 !important;
+}
+
+.dark-theme .card.border-primary .card-body,
+.dark-theme .card.border-success .card-body,
+.dark-theme .card.border-info .card-body,
+.dark-theme .card.border-warning .card-body,
+.dark-theme .card.border-danger .card-body {
+    background-color: #1f2937 !important;
+}
+
+/* Asegurar que los h-100 también sean oscuros */
+.dark-theme .h-100.card {
+    background-color: #1f2937 !important;
+}
+
+/* Iconos en modo oscuro - mantener colores vibrantes */
+.dark-theme .bi {
+    opacity: 1;
+}
+
+/* Subtítulos y textos secundarios en modo oscuro */
+.dark-theme .text-muted {
+    color: var(--text-muted) !important;
+}
+
+.dark-theme .lead,
+.dark-theme small,
+.dark-theme .small {
+    color: var(--text-secondary);
+}
+
+/* Cards de acceso rápido en modo oscuro */
+.dark-theme .card {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.dark-theme .card-text,
+.dark-theme .card p {
+    color: var(--text-secondary);
+}
+
+/* Mejorar visibilidad de subtítulos en modo oscuro */
+.dark-theme .card-subtitle {
+    color: var(--text-secondary) !important;
+}
+
+/* Container con mejor contraste en modo oscuro */
+.dark-theme .container,
+.dark-theme .container-fluid {
+    background-color: rgba(17, 24, 39, 0.95) !important;
+    border: 1px solid #4b5563;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+}
+
+/* Iconos grandes en stat-cards modo oscuro */
+.dark-theme .stat-card i,
+.dark-theme .card-body i {
+    opacity: 0.9;
+}
+
+/* HR en modo oscuro */
+.dark-theme hr {
+    border-color: #4b5563 !important;
+    opacity: 0.8;
+}
+
+/* Clases de texto de Bootstrap */
+.dark-theme .text-primary {
+    color: #60a5fa !important;
+}
+
+.dark-theme .text-success {
+    color: #34d399 !important;
+}
+
+.dark-theme .text-danger {
+    color: #f87171 !important;
+}
+
+.dark-theme .text-warning {
+    color: #fbbf24 !important;
+}
+
+.dark-theme .text-info {
+    color: #22d3ee !important;
+}
+
+.dark-theme .text-dark {
+    color: #f9fafb !important;
+}
+
+/* Code elements en modo oscuro */
+.dark-theme code {
+    background-color: #374151 !important;
+    color: #60a5fa !important;
+    border: 1px solid #4b5563;
+}
+
+/* Títulos en páginas modo oscuro */
+.dark-theme h1,
+.dark-theme h2,
+.dark-theme h3 {
+    color: #f9fafb !important;
+}
+
+/* Párrafos y texto general en modo oscuro */
+.dark-theme p,
+.dark-theme span,
+.dark-theme div {
+    color: var(--text-primary);
+}
+
+/* Labels y strong en modo oscuro */
+.dark-theme strong,
+.dark-theme b,
+.dark-theme label {
+    color: #f9fafb !important;
+}
+
+/* Links en tablas modo oscuro */
+.dark-theme .table a:not(.btn) {
+    color: #60a5fa !important;
+    text-decoration: underline;
+}
+
+/* ==========================================
+   MEJORAS COMPLETAS DE TEXTO PARA TEMA OSCURO
+   ========================================== */
+
+/* Textos principales */
+.dark-theme {
+    color: #f9fafb;
+}
+
+.dark-theme p,
+.dark-theme li,
+.dark-theme span:not(.badge):not(.navbar-brand) {
+    color: #e5e7eb;
+}
+
+.dark-theme small,
+.dark-theme .text-muted {
+    color: #d1d5db !important;
+}
+
+/* Cards en tema oscuro */
+.dark-theme .card {
+    background-color: #1f2937 !important;
+    border: 1px solid #4b5563;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+.dark-theme .card-body {
+    background-color: #1f2937 !important;
+    color: #e5e7eb;
+}
+
+.dark-theme .card-title {
+    color: #f9fafb !important;
+    font-weight: 700;
+}
+
+.dark-theme .card-text {
+    color: #d1d5db !important;
+}
+
+.dark-theme .card-header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
+    color: white !important;
+    border-bottom: 1px solid #4b5563 !important;
+}
+
+.dark-theme .card-header.bg-primary {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
+}
+
+.dark-theme .card-header.bg-success {
+    background: linear-gradient(135deg, #065f46 0%, #047857 100%) !important;
+}
+
+.dark-theme .card-header.bg-danger {
+    background: linear-gradient(135deg, #991b1b 0%, #b91c1c 100%) !important;
+}
+
+.dark-theme .card-header.bg-warning {
+    background: linear-gradient(135deg, #92400e 0%, #b45309 100%) !important;
+}
+
+.dark-theme .card-header.bg-info {
+    background: linear-gradient(135deg, #164e63 0%, #0e7490 100%) !important;
+}
+
+/* Estadísticas en tema oscuro */
+.dark-theme .stat-card {
+    background-color: #1f2937 !important;
+    border: 1px solid #4b5563;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+.dark-theme .stat-card .stat-value {
+    color: #f9fafb !important;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.dark-theme .stat-card .stat-label {
+    color: #d1d5db !important;
+    font-weight: 700;
+}
+
+/* Tablas en tema oscuro */
+.dark-theme .table {
+    color: #e5e7eb;
+    background-color: #1f2937 !important;
+}
+
+.dark-theme .table thead {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
+    color: #f9fafb !important;
+}
+
+.dark-theme .table thead th {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
+    color: #f9fafb !important;
+    border-color: #4b5563 !important;
+}
+
+.dark-theme .table-light,
+.dark-theme .table-light thead th {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
+    color: #f9fafb !important;
+    border-color: #4b5563 !important;
+}
+
+.dark-theme .table-responsive {
+    background-color: transparent !important;
+}
+
+.dark-theme .table tbody tr {
+    background-color: #1f2937 !important;
+    border-bottom: 1px solid #4b5563;
+}
+
+.dark-theme .table tbody tr:hover {
+    background-color: #374151 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.dark-theme .table tbody td {
+    color: #e5e7eb;
+}
+
+/* Formularios en tema oscuro */
+.dark-theme .form-label {
+    color: #f9fafb !important;
+    font-weight: 700;
+}
+
+.dark-theme .form-control,
+.dark-theme .form-select {
+    background-color: #374151 !important;
+    color: #f9fafb !important;
+    border-color: #6b7280 !important;
+}
+
+.dark-theme .form-control:focus,
+.dark-theme .form-select:focus {
+    background-color: #374151 !important;
+    color: #f9fafb !important;
+    border-color: #60a5fa !important;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+}
+
+.dark-theme .form-control option {
+    background-color: #374151;
+    color: #f9fafb;
+}
+
+.dark-theme .form-text {
+    color: #d1d5db !important;
+}
+
+/* Botones en d-grid */
+.dark-theme .d-grid .btn {
+    color: white !important;
+}
+
+/* Alertas con mejor contraste */
+.dark-theme .alert {
+    color: #f9fafb;
+    font-weight: 600;
+    border-width: 3px;
+}
+
+/* Footer en tema oscuro */
+.dark-theme footer small {
+    color: #d1d5db !important;
+}
+
+/* Breadcrumbs */
+.dark-theme .breadcrumb {
+    background-color: #374151;
+    border: 1px solid #4b5563;
+}
+
+.dark-theme .breadcrumb-item {
+    color: #d1d5db;
+}
+
+.dark-theme .breadcrumb-item.active {
+    color: #f9fafb;
+    font-weight: 700;
+}
+
+.dark-theme .breadcrumb-item + .breadcrumb-item::before {
+    color: #9ca3af;
+}
+
+/* Badges con mejor visibilidad */
+.dark-theme .badge {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    font-weight: 800;
+}
+
+.dark-theme .badge.bg-primary {
+    background-color: #3b82f6 !important;
+    color: white !important;
+}
+
+.dark-theme .badge.bg-success {
+    background-color: #10b981 !important;
+    color: white !important;
+}
+
+.dark-theme .badge.bg-danger {
+    background-color: #ef4444 !important;
+    color: white !important;
+}
+
+.dark-theme .badge.bg-warning {
+    background-color: #f59e0b !important;
+    color: #1f2937 !important;
+}
+
+.dark-theme .badge.bg-info {
+    background-color: #06b6d4 !important;
+    color: white !important;
+}
+
+.dark-theme .badge.bg-secondary {
+    background-color: #6b7280 !important;
+    color: white !important;
+}
+
+/* Botones outline en tema oscuro */
+.dark-theme .btn-outline-secondary {
+    border-color: #9ca3af;
+    color: #f9fafb;
+}
+
+.dark-theme .btn-outline-secondary:hover {
+    background-color: #6b7280;
+    color: #ffffff;
+    border-color: #6b7280;
+}
+
+/* Quick actions en tema oscuro */
+.dark-theme .quick-action h5 {
+    color: #f9fafb;
+    font-weight: 700;
+}
+
+.dark-theme .quick-action p {
+    color: #d1d5db;
+}
+
+/* Contenedores */
+.dark-theme .container,
+.dark-theme .container-fluid {
+    background-color: rgba(31, 41, 55, 0.95);
+    color: #e5e7eb;
+}
+
+/* Divisores */
+.dark-theme hr {
+    border-color: #4b5563;
+    opacity: 0.5;
+}
+
+/* Strong y enfatizado */
+.dark-theme strong,
+.dark-theme b {
+    color: #f9fafb;
+    font-weight: 800;
+}
+
+/* Code en tema oscuro */
+.dark-theme code {
+    background-color: #1f2937;
+    color: #60a5fa;
+    border: 1px solid #4b5563;
+}
+
+/* Lead text */
+.dark-theme .lead {
+    color: #e5e7eb;
+    font-weight: 500;
+}
+
+/* Descripciones y subtítulos */
+.dark-theme .text-secondary {
+    color: #d1d5db !important;
+}
+
+/* List groups */
+.dark-theme .list-group-item {
+    background-color: #374151;
+    color: #e5e7eb;
+    border-color: #4b5563;
+}
+
+.dark-theme .list-group-item:hover {
+    background-color: #4b5563;
+}
+

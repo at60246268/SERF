@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+    <title>Detalle Producto - SERF</title>
+</head>
+<body>
+    <th:block th:fragment="content">
+        <div class="row mb-4">
+            <div class="col">
+                <h1><i class="bi bi-box-seam"></i> Detalle del Producto</h1>
+            </div>
+            <div class="col-auto">
+                <a th:href="@{/productos/editar/{id}(id=${producto.id})}" class="btn btn-warning">
+                    <i class="bi bi-pencil"></i> Editar
+                </a>
+                <a href="/productos" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Volver
+                </a>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Información General</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="text-muted small">Código</label>
+                                <p class="fw-bold"><code th:text="${producto.codigo}"></code></p>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-muted small">Categoría</label>
+                                <p>
+                                    <span class="badge bg-secondary" th:text="${producto.categoria.descripcion}"></span>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="text-muted small">Nombre del Producto</label>
+                            <h4 th:text="${producto.nombre}"></h4>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="text-muted small">Descripción Técnica</label>
+                            <p th:text="${producto.descripcionTecnica ?: 'Sin descripción'}"></p>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label class="text-muted small">Fecha de Importación</label>
+                                <p th:text="${#temporals.format(producto.fechaImportacion, 'dd/MM/yyyy')}"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="text-muted small">Proveedor</label>
+                                <p th:text="${producto.proveedor?.nombre ?: 'Sin proveedor'}"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="text-muted small">Estado</label>
+                                <p>
+                                    <span th:if="${producto.activo}" class="badge bg-success">Activo</span>
+                                    <span th:unless="${producto.activo}" class="badge bg-secondary">Inactivo</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Información Financiera</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <label class="text-muted small">Costo de Importación</label>
+                                        <h4>
+                                            <span th:text="${producto.monedaImportacion.simbolo}"></span>
+                                            <span th:text="${#numbers.formatDecimal(producto.costoImportacion, 1, 2)}"></span>
+                                        </h4>
+                                        <small class="text-muted">Moneda: <span th:text="${producto.monedaImportacion.descripcion}"></span></small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <label class="text-muted small">Precio de Venta</label>
+                                        <h4>
+                                            <span th:text="${producto.monedaVenta.simbolo}"></span>
+                                            <span th:text="${#numbers.formatDecimal(producto.precioVenta, 1, 2)}"></span>
+                                        </h4>
+                                        <small class="text-muted">Moneda: <span th:text="${producto.monedaVenta.descripcion}"></span></small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info mb-0">
+                            <h6><i class="bi bi-currency-exchange"></i> Precio en EUR (Moneda Corporativa)</h6>
+                            <h3 class="mb-0">
+                                <strong th:text="${#numbers.formatCurrency(producto.precioEUR)}"></strong>
+                            </h3>
+                            <small>Conversión automática usando el <strong>patrón Singleton</strong> (ConfiguracionGlobal)</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">Control de Inventario</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <label class="text-muted small">Stock Actual</label>
+                        <h1 class="display-3" th:classappend="${producto.stockActual <= producto.stockMinimo ? 'text-danger' : 'text-success'}"
+                            th:text="${producto.stockActual}"></h1>
+                        
+                        <div class="progress mb-3" style="height: 30px;">
+                            <div class="progress-bar" 
+                                 th:classappend="${producto.stockActual <= producto.stockMinimo ? 'bg-danger' : 'bg-success'}"
+                                 th:style="'width: ' + ${producto.stockActual * 100 / (producto.stockMinimo * 3)} + '%'"
+                                 role="progressbar">
+                                <span th:text="${producto.stockActual} + ' unidades'"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="row text-start">
+                            <div class="col-6">
+                                <label class="text-muted small">Stock Mínimo</label>
+                                <p class="fw-bold" th:text="${producto.stockMinimo}"></p>
+                            </div>
+                            <div class="col-6">
+                                <label class="text-muted small">Disponible</label>
+                                <p class="fw-bold">
+                                    <span th:if="${producto.tieneStockDisponible()}" class="text-success">SÍ</span>
+                                    <span th:unless="${producto.tieneStockDisponible()}" class="text-danger">NO</span>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div th:if="${producto.stockActual <= producto.stockMinimo}" class="alert alert-danger mt-3">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            <strong>¡Stock Bajo!</strong><br>
+                            Se requiere reabastecimiento urgente
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">Acciones</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a th:href="@{/productos/editar/{id}(id=${producto.id})}" class="btn btn-warning">
+                                <i class="bi bi-pencil"></i> Editar Producto
+                            </a>
+                            <a th:href="@{/ventas/nueva?productoId={id}(id=${producto.id})}" class="btn btn-primary">
+                                <i class="bi bi-cart-plus"></i> Registrar Venta
+                            </a>
+                            <a th:href="@{/productos/eliminar/{id}(id=${producto.id})}" 
+                               class="btn btn-danger"
+                               onclick="return confirm('¿Está seguro de eliminar este producto?');">
+                                <i class="bi bi-trash"></i> Eliminar Producto
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>

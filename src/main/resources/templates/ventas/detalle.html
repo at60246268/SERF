@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+    <title>Detalle Venta - SERF</title>
+</head>
+<body>
+    <th:block th:fragment="content">
+        <div class="row mb-4">
+            <div class="col">
+                <h1><i class="bi bi-receipt"></i> Detalle de la Venta</h1>
+            </div>
+            <div class="col-auto">
+                <a href="/ventas" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Volver a Ventas
+                </a>
+                <button onclick="window.print()" class="btn btn-primary">
+                    <i class="bi bi-printer"></i> Imprimir Factura
+                </button>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Información de la Factura -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h5 class="mb-0">Factura <span th:text="${venta.numeroFactura}"></span></h5>
+                            </div>
+                            <div class="col-auto">
+                                <span class="badge bg-success">Completada</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h6 class="text-muted">INFORMACIÓN DEL CLIENTE</h6>
+                                <p class="mb-1"><strong th:text="${venta.cliente.nombre}"></strong></p>
+                                <p class="mb-1 small">
+                                    <i class="bi bi-card-text"></i> 
+                                    <span th:text="${venta.cliente.documentoIdentidad}"></span>
+                                </p>
+                                <p class="mb-1 small">
+                                    <i class="bi bi-envelope"></i> 
+                                    <span th:text="${venta.cliente.email}"></span>
+                                </p>
+                                <p class="mb-1 small">
+                                    <i class="bi bi-telephone"></i> 
+                                    <span th:text="${venta.cliente.telefono}"></span>
+                                </p>
+                                <p class="mb-1 small">
+                                    <i class="bi bi-geo-alt"></i> 
+                                    <span th:text="${venta.cliente.ciudad + ', ' + venta.cliente.pais}"></span>
+                                </p>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <h6 class="text-muted">FILIAL DE VENTA</h6>
+                                <p class="mb-1"><strong th:text="${venta.filial.nombre}"></strong></p>
+                                <p class="mb-1 small">
+                                    <span th:text="${venta.filial.direccion}"></span>
+                                </p>
+                                <p class="mb-1 small">
+                                    <i class="bi bi-geo-alt"></i> 
+                                    <span th:text="${venta.filial.ciudad + ', ' + venta.filial.pais}"></span>
+                                </p>
+                                <p class="mb-1 small">
+                                    <i class="bi bi-telephone"></i> 
+                                    <span th:text="${venta.filial.telefono}"></span>
+                                </p>
+                                <p class="mb-1 small">
+                                    <i class="bi bi-envelope"></i> 
+                                    <span th:text="${venta.filial.email}"></span>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <h6 class="text-muted mb-3">DETALLE DE PRODUCTOS</h6>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Producto</th>
+                                        <th class="text-center">Cantidad</th>
+                                        <th class="text-end">Precio Unit.</th>
+                                        <th class="text-end">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code th:text="${venta.producto.codigo}"></code></td>
+                                        <td>
+                                            <strong th:text="${venta.producto.nombre}"></strong><br>
+                                            <small class="text-muted" th:text="${venta.producto.categoria.descripcion}"></small>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge bg-primary" th:text="${venta.cantidad}"></span>
+                                        </td>
+                                        <td class="text-end">
+                                            <span th:text="${venta.producto.monedaVenta.simbolo}"></span>
+                                            <span th:text="${#numbers.formatDecimal(venta.precioUnitario, 1, 2)}"></span>
+                                        </td>
+                                        <td class="text-end">
+                                            <span th:text="${venta.producto.monedaVenta.simbolo}"></span>
+                                            <span th:text="${#numbers.formatDecimal(venta.montoSubtotal, 1, 2)}"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4" class="text-end"><strong>Subtotal:</strong></td>
+                                        <td class="text-end">
+                                            <span th:text="${venta.producto.monedaVenta.simbolo}"></span>
+                                            <span th:text="${#numbers.formatDecimal(venta.montoSubtotal, 1, 2)}"></span>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${venta.descuento > 0}">
+                                        <td colspan="4" class="text-end text-success">
+                                            <strong>Descuento:</strong>
+                                        </td>
+                                        <td class="text-end text-success">
+                                            - <span th:text="${venta.producto.monedaVenta.simbolo}"></span>
+                                            <span th:text="${#numbers.formatDecimal(venta.montoDescuento, 1, 2)}"></span>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-primary">
+                                        <td colspan="4" class="text-end"><h5 class="mb-0">TOTAL (Moneda Local):</h5></td>
+                                        <td class="text-end">
+                                            <h5 class="mb-0">
+                                                <span th:text="${venta.producto.monedaVenta.simbolo}"></span>
+                                                <span th:text="${#numbers.formatDecimal(venta.montoTotal, 1, 2)}"></span>
+                                            </h5>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <!-- Resumen Financiero -->
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Información de Pago</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="text-muted small">Fecha de Venta</label>
+                            <p class="fw-bold">
+                                <i class="bi bi-calendar"></i>
+                                <span th:text="${#temporals.format(venta.fechaVenta, 'dd/MM/yyyy')}"></span>
+                            </p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="text-muted small">Método de Pago</label>
+                            <p>
+                                <span class="badge" 
+                                      th:classappend="${venta.metodoPago.name() == 'EFECTIVO' ? 'bg-success' : 
+                                                      (venta.metodoPago.name() == 'TARJETA_CREDITO' ? 'bg-info' : 'bg-warning')}"
+                                      th:text="${venta.metodoPago.descripcion}"></span>
+                            </p>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="alert alert-info mb-3">
+                            <h6><i class="bi bi-currency-exchange"></i> Conversión a EUR</h6>
+                            <p class="mb-2">
+                                <strong>Moneda Local:</strong>
+                                <span th:text="${venta.monedaLocal.nombre}"></span>
+                            </p>
+                            <h4 class="mb-0">
+                                <strong th:text="${#numbers.formatCurrency(venta.montoEUR)}"></strong>
+                            </h4>
+                            <small class="text-muted">
+                                Conversión usando <strong>patrón Singleton</strong>
+                            </small>
+                        </div>
+                        
+                        <div th:if="${venta.observaciones}" class="mb-3">
+                            <label class="text-muted small">Observaciones</label>
+                            <p th:text="${venta.observaciones}"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Información Técnica -->
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h6 class="text-muted">Información del Sistema</h6>
+                        <ul class="list-unstyled small mb-0">
+                            <li><strong>ID Venta:</strong> <code th:text="${venta.id}"></code></li>
+                            <li><strong>ID Cliente:</strong> <code th:text="${venta.cliente.id}"></code></li>
+                            <li><strong>ID Producto:</strong> <code th:text="${venta.producto.id}"></code></li>
+                            <li><strong>ID Filial:</strong> <code th:text="${venta.filial.id}"></code></li>
+                        </ul>
+                        <hr>
+                        <p class="small text-muted mb-0">
+                            <i class="bi bi-info-circle"></i>
+                            Esta venta fue procesada con conversión automática de monedas usando el 
+                            <strong>patrón Singleton</strong> (ConfiguracionGlobal).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>

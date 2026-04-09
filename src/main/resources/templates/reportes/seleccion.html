@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+    <title>Generador de Reportes - SERF</title>
+</head>
+<body>
+    <th:block th:fragment="content">
+        <div class="row mb-4">
+            <div class="col">
+                <h1><i class="bi bi-file-earmark-bar-graph"></i> Generador de Reportes Financieros</h1>
+                <p class="text-muted">Utiliza los 6 patrones de diseño implementados</p>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-sliders"></i> Configuración del Reporte</h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/reportes/generar}" method="post">
+                    <div class="mb-4">
+                        <label class="form-label h6">Tipo de Reporte *</label>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100 reporte-option">
+                                    <div class="card-body text-center">
+                                        <input type="radio" class="btn-check" name="tipoReporte" id="mensual" value="MENSUAL" required>
+                                        <label class="btn btn-outline-primary w-100" for="mensual">
+                                            <i class="bi bi-calendar-month" style="font-size: 2rem;"></i>
+                                            <h5 class="mt-2">Reporte Mensual</h5>
+                                            <p class="small mb-0">Análisis del último mes</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100 reporte-option">
+                                    <div class="card-body text-center">
+                                        <input type="radio" class="btn-check" name="tipoReporte" id="trimestral" value="TRIMESTRAL">
+                                        <label class="btn btn-outline-primary w-100" for="trimestral">
+                                            <i class="bi bi-calendar3" style="font-size: 2rem;"></i>
+                                            <h5 class="mt-2">Reporte Trimestral</h5>
+                                            <p class="small mb-0">Análisis de 3 meses</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100 reporte-option">
+                                    <div class="card-body text-center">
+                                        <input type="radio" class="btn-check" name="tipoReporte" id="anual" value="ANUAL">
+                                        <label class="btn btn-outline-primary w-100" for="anual">
+                                            <i class="bi bi-calendar-year" style="font-size: 2rem;"></i>
+                                            <h5 class="mt-2">Reporte Anual</h5>
+                                            <p class="small mb-0">Análisis del año completo</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label h6">Opciones de Seguridad</label>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" name="conMarcaAgua" id="marcaAgua" value="true">
+                            <label class="form-check-label" for="marcaAgua">
+                                <strong>Agregar Marca de Agua</strong> - Protege el documento con marca visible
+                            </label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="conFirmaDigital" id="firmaDigital" value="true">
+                            <label class="form-check-label" for="firmaDigital">
+                                <strong>Agregar Firma Digital</strong> - Valida la autenticidad del reporte
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-play-circle"></i> Generar Reporte Completo
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5><i class="bi bi-gear"></i> Patrones de Diseño Aplicados</h5>
+                <p class="mb-3">Al generar un reporte, el sistema ejecuta la siguiente secuencia:</p>
+                
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="card h-100 border-primary">
+                            <div class="card-body">
+                                <h6 class="text-primary">
+                                    <span class="badge bg-primary">1</span> SINGLETON
+                                </h6>
+                                <p class="small mb-0">
+                                    <code>ConfiguracionGlobal</code> proporciona tasas de cambio únicas para conversión de monedas
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 border-success">
+                            <div class="card-body">
+                                <h6 class="text-success">
+                                    <span class="badge bg-success">2</span> PROTOTYPE
+                                </h6>
+                                <p class="small mb-0">
+                                    <code>PlantillaReporte</code> clona la plantilla según el tipo seleccionado (Mensual/Trimestral/Anual)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 border-info">
+                            <div class="card-body">
+                                <h6 class="text-info">
+                                    <span class="badge bg-info">3</span> BUILDER
+                                </h6>
+                                <p class="small mb-0">
+                                    <code>ReporteBuilder</code> construye el reporte paso a paso con un API fluido
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 border-warning">
+                            <div class="card-body">
+                                <h6 class="text-warning">
+                                    <span class="badge bg-warning text-dark">4</span> COMPOSITE
+                                </h6>
+                                <p class="small mb-0">
+                                    <code>ComponenteReporte</code> organiza el contenido jerárquicamente con secciones y elementos
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 border-danger">
+                            <div class="card-body">
+                                <h6 class="text-danger">
+                                    <span class="badge bg-danger">5</span> DECORATOR
+                                </h6>
+                                <p class="small mb-0">
+                                    <code>MarcaAguaDecorator</code> y <code>FirmaDigitalDecorator</code> agregan seguridad dinámicamente
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 border-dark">
+                            <div class="card-body">
+                                <h6 class="text-dark">
+                                    <span class="badge bg-dark">6</span> FACADE
+                                </h6>
+                                <p class="small mb-0">
+                                    <code>ReporteFinancieroFacade</code> simplifica la coordinación de todos los patrones anteriores
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>
