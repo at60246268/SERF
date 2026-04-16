@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+    <title>Procesar Pago - SERF</title>
+</head>
+<body>
+    <th:block th:fragment="content">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">
+                    <i class="bi bi-credit-card text-success"></i>
+                    Procesar Pago
+                </h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+                        <li class="breadcrumb-item"><a href="/ventas">Ventas</a></li>
+                        <li class="breadcrumb-item active">Procesar Pago</li>
+                    </ol>
+                </nav>
+                <hr>
+            </div>
+        </div>
+        
+        <!-- Información de la venta -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-receipt"></i> Detalle de Venta</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>ID Venta:</strong> <span th:text="${venta.id}">#001</span></p>
+                        <p><strong>Cliente:</strong> <span th:text="${venta.cliente.nombre}">Cliente Ejemplo</span></p>
+                        <p><strong>Producto:</strong> <span th:text="${venta.producto.nombre}">Producto Ejemplo</span></p>
+                        <p><strong>Cantidad:</strong> <span th:text="${venta.cantidad}">1</span></p>
+                        <p class="mb-0"><strong>Total:</strong> 
+                            <span class="h4 text-success" th:text="${#numbers.formatCurrency(venta.totalEUR)}">€0.00</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Formulario de pago -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="bi bi-wallet2"></i> Patrón Adapter - Seleccionar Pasarela</h5>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/pagos/procesar}" method="post">
+                            <input type="hidden" name="ventaId" th:value="${venta.id}">
+                            <input type="hidden" name="monto" th:value="${venta.totalEUR}">
+                            <input type="hidden" name="moneda" value="EUR">
+                            
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Pasarela de Pago:</strong></label>
+                                <div th:each="pasarela : ${pasarelas}" class="form-check">
+                                    <input class="form-check-input" type="radio" 
+                                           name="tipoPasarela" 
+                                           th:value="${pasarela.nombrePasarela}"
+                                           th:id="'pasarela-' + ${pasarela.nombrePasarela}"
+                                           required>
+                                    <label class="form-check-label" th:for="'pasarela-' + ${pasarela.nombrePasarela}">
+                                        <i class="bi" th:classappend="${pasarela.nombrePasarela == 'PayPal' ? 'bi-paypal' : 
+                                                                       pasarela.nombrePasarela == 'Yape' ? 'bi-phone' : 
+                                                                       'bi-wallet'}"></i>
+                                        <span th:text="${pasarela.nombrePasarela}">PayPal</span>
+                                        <span class="badge bg-success" th:if="${pasarela.estaHabilitada()}">Disponible</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle"></i>
+                                <strong>Patrón Adapter:</strong> Integración de múltiples pasarelas con interfaz común
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="bi bi-check-circle"></i> Procesar Pago
+                                </button>
+                                <a th:href="@{/ventas/{id}(id=${venta.id})}" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left"></i> Cancelar
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>

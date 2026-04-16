@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+    <title>Configuración de Pasarelas - SERF</title>
+</head>
+<body>
+    <th:block th:fragment="content">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">
+                    <i class="bi bi-gear-fill text-primary"></i>
+                    Configuración de Pasarelas de Pago
+                </h1>
+                <p class="lead">Patrón Adapter - Gestión de múltiples sistemas de pago</p>
+                <hr>
+            </div>
+        </div>
+        
+        <!-- Mensajes -->
+        <div th:if="${mensaje}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> <span th:text="${mensaje}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="bi bi-list-check"></i> Pasarelas Disponibles</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Pasarela</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="pasarela : ${pasarelas}">
+                                        <td>
+                                            <i class="bi" th:classappend="${pasarela.nombrePasarela == 'PayPal' ? 'bi-paypal' : 
+                                                                           pasarela.nombrePasarela == 'Yape' ? 'bi-phone' : 
+                                                                           'bi-wallet'}"></i>
+                                            <strong th:text="${pasarela.nombrePasarela}">PayPal</strong>
+                                        </td>
+                                        <td>
+                                            <span th:if="${pasarela.estaHabilitada()}" class="badge bg-success">
+                                                <i class="bi bi-check-circle"></i> Habilitada
+                                            </span>
+                                            <span th:unless="${pasarela.estaHabilitada()}" class="badge bg-secondary">
+                                                <i class="bi bi-x-circle"></i> Deshabilitada
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <form th:if="${pasarela.estaHabilitada()}" 
+                                                  th:action="@{/pagos/deshabilitar/{tipo}(tipo=${pasarela.nombrePasarela})}" 
+                                                  method="post" style="display:inline;">
+                                                <button type="submit" class="btn btn-sm btn-warning">
+                                                    <i class="bi bi-toggle-off"></i> Deshabilitar
+                                                </button>
+                                            </form>
+                                            <form th:unless="${pasarela.estaHabilitada()}" 
+                                                  th:action="@{/pagos/habilitar/{tipo}(tipo=${pasarela.nombrePasarela})}" 
+                                                  method="post" style="display:inline;">
+                                                <button type="submit" class="btn btn-sm btn-success">
+                                                    <i class="bi bi-toggle-on"></i> Habilitar
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Información del patrón -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-info-circle"></i> Patrón Adapter</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Propósito:</strong> Integrar múltiples pasarelas de pago con una interfaz común.</p>
+                        
+                        <p class="mb-2"><strong>Pasarelas integradas:</strong></p>
+                        <ul>
+                            <li><i class="bi bi-paypal text-primary"></i> PayPal</li>
+                            <li><i class="bi bi-phone text-success"></i> Yape (Perú)</li>
+                            <li><i class="bi bi-wallet text-warning"></i> Plin (Perú)</li>
+                        </ul>
+                        
+                        <div class="alert alert-light mt-3">
+                            <small>
+                                <strong>RF1 ✓</strong> Sistema integra múltiples pasarelas mediante adaptador común.<br>
+                                <strong>RF2 ✓</strong> Administrador puede habilitar/deshabilitar pasarelas.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2 mt-3">
+                    <a href="/" class="btn btn-outline-primary">
+                        <i class="bi bi-house"></i> Volver al Inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>

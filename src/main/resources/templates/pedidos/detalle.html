@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+    <title>Detalle de Pedido - SERF</title>
+</head>
+<body>
+    <th:block th:fragment="content">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">
+                    <i class="bi bi-box text-primary"></i>
+                    Pedido <span th:text="'#' + ${pedido.id}">#001</span>
+                </h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+                        <li class="breadcrumb-item"><a href="/pedidos">Pedidos</a></li>
+                        <li class="breadcrumb-item active" th:text="'Pedido #' + ${pedido.id}">Detalle</li>
+                    </ol>
+                </nav>
+                <hr>
+            </div>
+        </div>
+        
+        <!-- Mensajes -->
+        <div th:if="${mensaje}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> <span th:text="${mensaje}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        
+        <div class="row">
+            <!-- Información del pedido -->
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="bi bi-info-circle"></i> Información del Pedido</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>ID Pedido:</strong> <span th:text="'#' + ${pedido.id}">#001</span></p>
+                                <p><strong>Venta Asociada:</strong> <span th:text="'V-' + ${pedido.idVenta}">V-001</span></p>
+                                <p><strong>Estado:</strong> 
+                                    <span class="badge" 
+                                          th:classappend="${pedido.estado == 'CREADO' ? 'bg-info' : 
+                                                           pedido.estado == 'PROCESADO' ? 'bg-success' : 
+                                                           pedido.estado == 'CANCELADO' ? 'bg-danger' : 
+                                                           'bg-secondary'}"
+                                          th:text="${pedido.estado}">CREADO</span>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Descuento Aplicado:</strong> <span th:text="${pedido.descuentoAplicado} + '%'">0%</span></p>
+                                <p><strong>Fecha Creación:</strong> <span th:text="${pedido.fechaCreacion}">2026-04-15</span></p>
+                                <p th:if="${pedido.fechaProcesamiento}">
+                                    <strong>Fecha Procesamiento:</strong> <span th:text="${pedido.fechaProcesamiento}">-</span>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <h6><strong>Items del Pedido:</strong></h6>
+                        <ul>
+                            <li th:each="item : ${pedido.items}" th:text="${item}">Item ejemplo</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Acciones con Command Pattern -->
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0"><i class="bi bi-command"></i> Acciones (Command Pattern)</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-2">
+                            <!-- Procesar pedido -->
+                            <div class="col-md-3" th:if="${pedido.estado == 'CREADO'}">
+                                <form th:action="@{/pedidos/{id}/procesar(id=${pedido.id})}" method="post">
+                                    <button type="submit" class="btn btn-success w-100">
+                                        <i class="bi bi-gear"></i> Procesar
+                                    </button>
+                                </form>
+                            </div>
+                            
+                            <!-- Aplicar descuento -->
+                            <div class="col-md-5" th:if="${pedido.estado != 'CANCELADO'}">
+                                <form th:action="@{/pedidos/{id}/descuento(id=${pedido.id})}" method="post" class="d-flex gap-1">
+                                    <input type="number" name="porcentaje" class="form-control form-control-sm" 
+                                           placeholder="% Descuento" min="0" max="100" value="10" required>
+                                    <button type="submit" class="btn btn-warning btn-sm">
+                                        <i class="bi bi-percent"></i> Aplicar
+                                    </button>
+                                </form>
+                            </div>
+                            
+                            <!-- Cancelar pedido -->
+                            <div class="col-md-3" th:if="${pedido.estado != 'CANCELADO'}">
+                                <form th:action="@{/pedidos/{id}/cancelar(id=${pedido.id})}" method="post">
+                                    <button type="submit" class="btn btn-danger w-100" 
+                                            onclick="return confirm('¿Está seguro de cancelar este pedido?')">
+                                        <i class="bi bi-x-circle"></i> Cancelar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info mt-3 mb-0">
+                            <i class="bi bi-info-circle"></i>
+                            Cada acción se registra como un comando en el historial y puede ser deshecha.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Memento Pattern -->
+                <div class="card mt-3" th:if="${tieneMemento}">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-clock-history"></i> Restaurar Estado (Memento Pattern)</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Existe un punto de restauración guardado para este pedido.</p>
+                        <form th:action="@{/pedidos/{id}/restaurar(id=${pedido.id})}" method="post">
+                            <button type="submit" class="btn btn-info" 
+                                    onclick="return confirm('¿Restaurar el pedido a su estado anterior?')">
+                                <i class="bi bi-arrow-counterclockwise"></i> Restaurar a Estado Anterior
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar con información de patrones -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0"><i class="bi bi-diagram-3"></i> Patrones Aplicados</h5>
+                    </div>
+                    <div class="card-body">
+                        <h6><i class="bi bi-command text-warning"></i> Command Pattern</h6>
+                        <p class="small">Encapsula cada acción como un objeto comando:</p>
+                        <ul class="small">
+                            <li>CrearPedidoComando</li>
+                            <li>ProcesarPedidoComando</li>
+                            <li>AplicarDescuentoComando</li>
+                            <li>CancelarPedidoComando</li>
+                        </ul>
+                        
+                        <hr>
+                        
+                        <h6><i class="bi bi-clock-history text-info"></i> Memento Pattern</h6>
+                        <p class="small mb-0">Guarda instantáneas del estado del pedido antes de cada operación, permitiendo restaurar a estados anteriores.</p>
+                        
+                        <hr>
+                        
+                        <div class="alert alert-light mb-0">
+                            <small>
+                                <strong>RF7 ✓</strong> Acciones encapsuladas como comandos con historial.<br>
+                                <strong>RF8 ✓</strong> Sistema puede revertir pedidos a estados anteriores.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2 mt-3">
+                    <a href="/pedidos" class="btn btn-outline-primary">
+                        <i class="bi bi-arrow-left"></i> Volver a Lista
+                    </a>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>

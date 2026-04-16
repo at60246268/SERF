@@ -8,7 +8,58 @@
         <div class="row mb-4">
             <div class="col">
                 <h1><i class="bi bi-file-earmark-bar-graph"></i> Generador de Reportes Financieros</h1>
-                <p class="text-muted">Utiliza los 6 patrones de diseño implementados</p>
+                <p class="text-muted">Utiliza los 6 patrones de diseño implementados + Patrón Proxy para control de acceso</p>
+            </div>
+        </div>
+        
+        <!-- Mensajes -->
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        
+        <!-- Control de acceso (Proxy Pattern) -->
+        <div class="card mb-4 border-info">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="bi bi-shield-lock"></i> Patrón Proxy - Control de Acceso a Reportes</h5>
+            </div>
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="mb-2"><strong>Rol de Usuario Actual:</strong></p>
+                        <h4>
+                            <span class="badge" 
+                                  th:classappend="${rolActual == 'GERENTE' || rolActual == 'CONTADOR' ? 'bg-success' : 'bg-warning'}"
+                                  th:text="${rolActual}">EMPLEADO</span>
+                        </h4>
+                        
+                        <div th:if="${rolActual == 'GERENTE' || rolActual == 'CONTADOR'}" class="alert alert-success mt-3 mb-0">
+                            <i class="bi bi-check-circle"></i> Tienes acceso completo a reportes financieros
+                        </div>
+                        <div th:if="${rolActual == 'EMPLEADO'}" class="alert alert-warning mt-3 mb-0">
+                            <i class="bi bi-exclamation-triangle"></i> Acceso restringido. Solo Gerentes y Contadores pueden generar reportes completos.
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <p class="mb-2"><strong>Cambiar Rol (Demostración):</strong></p>
+                        <form action="/reportes/cambiar-rol" method="post" class="d-flex gap-2">
+                            <select class="form-select" name="rol" required>
+                                <option value="GERENTE" th:selected="${rolActual == 'GERENTE'}">Gerente</option>
+                                <option value="CONTADOR" th:selected="${rolActual == 'CONTADOR'}">Contador</option>
+                                <option value="EMPLEADO" th:selected="${rolActual == 'EMPLEADO'}">Empleado</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-arrow-repeat"></i> Cambiar
+                            </button>
+                        </form>
+                        <small class="text-muted">RF3, RF4 ✓ - Proxy valida credenciales y roles</small>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -69,7 +120,7 @@
                             </label>
                         </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" name="conFirmaDigital" id="firmaDigital" value="true">
+                            <input class="form-check-input" type="checkbox" name="conFirma" id="firmaDigital" value="true">
                             <label class="form-check-label" for="firmaDigital">
                                 <strong>Agregar Firma Digital</strong> - Valida la autenticidad del reporte
                             </label>
@@ -92,12 +143,24 @@
                 
                 <div class="row g-3">
                     <div class="col-md-4">
+                        <div class="card h-100 border-info">
+                            <div class="card-body">
+                                <h6 class="text-info">
+                                    <span class="badge bg-info">0</span> PROXY
+                                </h6>
+                                <p class="small mb-0">
+                                    <code>ReporteProxy</code> valida credenciales y roles antes de permitir acceso al reporte
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="card h-100 border-primary">
                             <div class="card-body">
                                 <h6 class="text-primary">
                                     <span class="badge bg-primary">1</span> SINGLETON
                                 </h6>
-                                <p class="small mb-0">
+                                <p class="small mb-0"
                                     <code>ConfiguracionGlobal</code> proporciona tasas de cambio únicas para conversión de monedas
                                 </p>
                             </div>

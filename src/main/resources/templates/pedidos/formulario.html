@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+    <title>Nuevo Pedido - SERF</title>
+</head>
+<body>
+    <th:block th:fragment="content">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">
+                    <i class="bi bi-plus-circle text-success"></i>
+                    Crear Nuevo Pedido
+                </h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+                        <li class="breadcrumb-item"><a href="/pedidos">Pedidos</a></li>
+                        <li class="breadcrumb-item active">Nuevo</li>
+                    </ol>
+                </nav>
+                <hr>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="bi bi-clipboard-check"></i> Formulario de Pedido</h5>
+                    </div>
+                    <div class="card-body">
+                        <form action="/pedidos/crear" method="post">
+                            <div class="mb-3">
+                                <label for="ventaId" class="form-label"><strong>Venta Asociada:</strong></label>
+                                <select class="form-select" id="ventaId" name="ventaId" required>
+                                    <option value="">Seleccione una venta...</option>
+                                    <option th:each="venta : ${ventas}" 
+                                            th:value="${venta.id}"
+                                            th:selected="${ventaId != null && ventaId == venta.id}"
+                                            th:text="'Venta #' + ${venta.id} + ' - ' + ${venta.producto.nombre} + ' (' + ${venta.cliente.nombre} + ')'">
+                                    </option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="items" class="form-label"><strong>Items del Pedido:</strong></label>
+                                <textarea class="form-control" id="items" name="items" rows="5" 
+                                          placeholder="Ingrese los items separados por coma. Ejemplo:&#10;Laptop Dell XPS 15,&#10;Mouse inalámbrico,&#10;Teclado mecánico" 
+                                          required></textarea>
+                                <div class="form-text">Separe cada item con una coma</div>
+                            </div>
+                            
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle"></i>
+                                <strong>Patrón Command:</strong> Esta acción se registrará en el historial y podrá ser deshecha.
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="bi bi-check-circle"></i> Crear Pedido
+                                </button>
+                                <a href="/pedidos" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left"></i> Cancelar
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-lightbulb"></i> Ayuda</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>¿Cómo crear un pedido?</strong></p>
+                        <ol>
+                            <li>Selecciona una venta existente</li>
+                            <li>Ingresa los items del pedido</li>
+                            <li>Haz clic en "Crear Pedido"</li>
+                        </ol>
+                        <p class="mb-0"><small>El sistema guardará un punto de restauración automáticamente (Memento Pattern).</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>

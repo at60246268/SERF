@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+    <title>Pedidos - SERF</title>
+</head>
+<body>
+    <th:block th:fragment="content">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">
+                    <i class="bi bi-box-seam text-primary"></i>
+                    Gestión de Pedidos
+                </h1>
+                <p class="lead">Patrones Command y Memento - Procesamiento con historial</p>
+                <hr>
+            </div>
+        </div>
+        
+        <!-- Mensajes -->
+        <div th:if="${mensaje}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> <span th:text="${mensaje}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        
+        <!-- Acciones -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <a href="/pedidos/nuevo" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Nuevo Pedido
+                </a>
+                <form action="/pedidos/deshacer" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-warning">
+                        <i class="bi bi-arrow-counterclockwise"></i> Deshacer Última Operación
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Lista de pedidos -->
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="bi bi-list"></i> Pedidos Activos</h5>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${#lists.isEmpty(pedidos)}" class="alert alert-info">
+                            No hay pedidos registrados. <a href="/pedidos/nuevo">Crear el primero</a>
+                        </div>
+                        
+                        <div class="table-responsive" th:unless="${#lists.isEmpty(pedidos)}">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Venta</th>
+                                        <th>Estado</th>
+                                        <th>Items</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="pedido : ${pedidos}">
+                                        <td><strong th:text="'#' + ${pedido.id}">#001</strong></td>
+                                        <td th:text="${pedido.idVenta}">V-001</td>
+                                        <td>
+                                            <span class="badge" 
+                                                  th:classappend="${pedido.estado == 'CREADO' ? 'bg-info' : 
+                                                                   pedido.estado == 'PROCESADO' ? 'bg-success' : 
+                                                                   pedido.estado == 'CANCELADO' ? 'bg-danger' : 
+                                                                   'bg-secondary'}"
+                                                  th:text="${pedido.estado}">CREADO</span>
+                                        </td>
+                                        <td th:text="${#lists.size(pedido.items)}">3</td>
+                                        <td>
+                                            <a th:href="@{/pedidos/{id}(id=${pedido.id})}" class="btn btn-sm btn-info">
+                                                <i class="bi bi-eye"></i> Ver
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Información de patrones -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0"><i class="bi bi-command"></i> Patrón Command</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Comandos disponibles:</strong></p>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-plus-circle text-success"></i> Crear Pedido</li>
+                            <li><i class="bi bi-gear text-primary"></i> Procesar Pedido</li>
+                            <li><i class="bi bi-percent text-warning"></i> Aplicar Descuento</li>
+                            <li><i class="bi bi-x-circle text-danger"></i> Cancelar Pedido</li>
+                        </ul>
+                        <div class="alert alert-light">
+                            <small><strong>RF7 ✓</strong> Acciones encapsuladas como comandos con historial.</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mt-3">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-clock-history"></i> Patrón Memento</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Permite restaurar pedidos a estados anteriores.</p>
+                        <div class="alert alert-light">
+                            <small><strong>RF8 ✓</strong> Sistema puede revertir pedido a estado anterior.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>

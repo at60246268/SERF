@@ -129,4 +129,18 @@ public class VentaService {
         long count = ventaRepository.count();
         return String.format("FACT-%06d", count + 1);
     }
+    
+    /**
+     * Obtiene una venta por ID (método alias para controlador de pagos)
+     */
+    public Venta obtenerVentaPorId(Long id) {
+        return buscarPorId(id).orElse(null);
+    }
+    
+    /**
+     * Lista todas las ventas (método alias para controlador de pedidos)
+     */
+    public List<Venta> listarTodasVentas() {
+        return listarTodas();
+    }
 }

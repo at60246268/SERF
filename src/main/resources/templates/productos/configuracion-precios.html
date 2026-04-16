@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout}">
+<head>
+    <title>Políticas de Precios - SERF</title>
+</head>
+<body>
+    <th:block th:fragment="content">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">
+                    <i class="bi bi-tags-fill text-warning"></i>
+                    Políticas de Precios
+                </h1>
+                <p class="lead">Patrón Strategy - Estrategias de precio configurables</p>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+                        <li class="breadcrumb-item"><a href="/productos">Productos</a></li>
+                        <li class="breadcrumb-item active">Políticas de Precios</li>
+                    </ol>
+                </nav>
+                <hr>
+            </div>
+        </div>
+        
+        <!-- Mensajes -->
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        
+        <div class="row">
+            <!-- Formulario de configuración -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0"><i class="bi bi-sliders"></i> Cambiar Estrategia de Precios</h5>
+                    </div>
+                    <div class="card-body">
+                        <form action="/productos/cambiar-estrategia" method="post">
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Seleccione la estrategia:</strong></label>
+                                
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="estrategia" value="ESTANDAR" 
+                                           id="estrategiaEstandar" 
+                                           th:checked="${estrategiaActual == 'PrecioEstandar'}" required>
+                                    <label class="form-check-label" for="estrategiaEstandar">
+                                        <strong>Precio Estándar</strong>
+                                        <p class="text-muted small mb-0">Precio base sin modificaciones</p>
+                                    </label>
+                                </div>
+                                
+                                <div class="form-check mt-3">
+                                    <input class="form-check-input" type="radio" name="estrategia" value="DESCUENTO" 
+                                           id="estrategiaDescuento"
+                                           th:checked="${estrategiaActual == 'PrecioConDescuento'}"
+                                           onclick="document.getElementById('parametroDescuento').disabled=false">
+                                    <label class="form-check-label" for="estrategiaDescuento">
+                                        <strong>Precio con Descuento</strong>
+                                        <p class="text-muted small mb-2">Aplica un descuento porcentual fijo</p>
+                                        <input type="number" class="form-control form-control-sm" 
+                                               id="parametroDescuento" name="parametro" 
+                                               placeholder="% Descuento (ej: 15)" 
+                                               min="0" max="100" step="0.1"
+                                               disabled>
+                                    </label>
+                                </div>
+                                
+                                <div class="form-check mt-3">
+                                    <input class="form-check-input" type="radio" name="estrategia" value="DINAMICO" 
+                                           id="estrategiaDinamico"
+                                           th:checked="${estrategiaActual == 'PrecioDinamico'}"
+                                           onclick="document.getElementById('parametroDinamico').disabled=false">
+                                    <label class="form-check-label" for="estrategiaDinamico">
+                                        <strong>Precio Dinámico</strong>
+                                        <p class="text-muted small mb-2">Ajusta según demanda/temporada</p>
+                                        <input type="number" class="form-control form-control-sm" 
+                                               id="parametroDinamico" name="parametro" 
+                                               placeholder="Factor multiplicador (ej: 1.2)" 
+                                               min="0.1" max="3.0" step="0.1"
+                                               disabled>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle"></i>
+                                <strong>Patrón Strategy:</strong> Cambia el algoritmo de cálculo de precios en tiempo de ejecución.
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-warning btn-lg">
+                                    <i class="bi bi-check-circle"></i> Aplicar Estrategia
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Información y ejemplos -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="bi bi-lightbulb"></i> Estrategia Actual</h5>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="text-center mb-3">
+                            <span class="badge bg-success" th:text="${estrategiaActual}">PrecioEstandar</span>
+                        </h4>
+                        
+                        <hr>
+                        
+                        <h6><strong>Ejemplo de cálculo:</strong></h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Precio Base</th>
+                                        <th>Estrategia</th>
+                                        <th>Precio Final</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>€100.00</td>
+                                        <td>Estándar</td>
+                                        <td class="text-success"><strong>€100.00</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>€100.00</td>
+                                        <td>Descuento 15%</td>
+                                        <td class="text-success"><strong>€85.00</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>€100.00</td>
+                                        <td>Dinámico (×1.2)</td>
+                                        <td class="text-success"><strong>€120.00</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mt-3">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-diagram-3"></i> Patrón Strategy</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Definición:</strong> Permite seleccionar el algoritmo en tiempo de ejecución.</p>
+                        
+                        <p class="mb-2"><strong>Estrategias implementadas:</strong></p>
+                        <ul>
+                            <li><code>PrecioEstandar</code> - Precio base</li>
+                            <li><code>PrecioConDescuento</code> - Con descuento %</li>
+                            <li><code>PrecioDinamico</code> - Ajustado por demanda</li>
+                        </ul>
+                        
+                        <div class="alert alert-light mb-0">
+                            <small>
+                                <strong>RF9 ✓</strong> Sistema soporta distintas estrategias de precios.<br>
+                                <strong>RF10 ✓</strong> Administrador puede seleccionar/cambiar estrategia.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2 mt-3">
+                    <a href="/productos" class="btn btn-outline-primary">
+                        <i class="bi bi-arrow-left"></i> Volver a Productos
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            // Habilitar/deshabilitar campos de parámetros según selección
+            document.querySelectorAll('input[name="estrategia"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.getElementById('parametroDescuento').disabled = true;
+                    document.getElementById('parametroDinamico').disabled = true;
+                    
+                    if (this.value === 'DESCUENTO') {
+                        document.getElementById('parametroDescuento').disabled = false;
+                    } else if (this.value === 'DINAMICO') {
+                        document.getElementById('parametroDinamico').disabled = false;
+                    }
+                });
+            });
+        </script>
+    </th:block>
+</body>
+</html>
